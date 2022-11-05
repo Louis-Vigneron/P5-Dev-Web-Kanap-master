@@ -21,7 +21,7 @@ fetch("http://localhost:3000/api/products")
 function buildProduct(product){
 console.log(product);
 let a = document.createElement ("a");
-a.href = "./product.html" + product._id;
+a.href = "./product.html"+ "?" + product._id;
 document.getElementById('items').appendChild(a);
 
 let article = document.createElement ("article");
@@ -32,7 +32,6 @@ let img = document.createElement("img");
 img.src = product.imageUrl;
 img.alt = product.altTxt;
 article.appendChild(img);
-img.innerHTML = product.imageUrl;
 
 let h3 = document.createElement("h3");
 article.appendChild(h3);
