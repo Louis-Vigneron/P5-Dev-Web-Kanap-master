@@ -60,6 +60,17 @@ function OneProduct(kanap){
 const ChoixOption = document.getElementById('colors');
 const Quantite = document.getElementById('quantity');
 
+const erreurColors = document.createElement("span");
+let error1 = document.querySelector(".item__content__settings__color");
+error1.appendChild(erreurColors);
+erreurColors.style.color = "#000000";
+
+const erreurQuantity = document.createElement("span");
+let error2 = document.querySelector(".item__content__settings__quantity");
+error2.appendChild(erreurQuantity);
+erreurQuantity.style.color = "#000000";
+
+// bouton
 const btnPanier = document.getElementById('addToCart');
 btnPanier.addEventListener ('click',(event)=>{
 event.preventDefault();
@@ -73,7 +84,68 @@ let ProduitSelectionner = {
   quantite: ChoixQuantite,
 }
 
-console.log(ProduitSelectionner);
+console.table(ProduitSelectionner);
+
+
+// Affichage message si erreur utilisateur et validation
+
+var erreur1 ="";
+var erreur2 ="";
+
+if (!ChoixForm){
+  erreur1 = "Choisissez une couleur !";
+}
+
+if (ChoixQuantite < 1)
+{
+  erreur2 = "Choisissez une quantité !";
+}
+
+if(erreur1 || erreur2){
+alert ('Nah pas bon')
+console.log(erreur1);
+console.log(erreur2);
+erreurColors.innerHTML = `<br> ${erreur1}`;
+erreurQuantity.innerHTML = `<br> ${erreur2}`;
+
+}
+
+else
+{
+  alert("Good Good")
+  erreurColors.innerHTML = `<br> ${erreur1}`;
+  erreurQuantity.innerHTML = `<br> ${erreur2}`;
+  // Local storage
+  let produitLocalStorage = JSON.parse (localStorage.getItem ("produit"));
+  
+  console.log(produitLocalStorage);
+  
+  if (produitLocalStorage){
+    if(Id===Id && ChoixForm===ChoixForm)
+    {
+      produitLocalStorage.push(ProduitSelectionner);
+      localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+      console.log("ok modification du nombre");
+    }
+    else{
+    produitLocalStorage.push(ProduitSelectionner);
+    localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+    console.log("ok création new produit");
+  }
+
+  }
+
+  else{
+    produitLocalStorage =[];
+    produitLocalStorage.push(ProduitSelectionner);
+    localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+
+  }
+
+}
+
+
 
 });
+
 
