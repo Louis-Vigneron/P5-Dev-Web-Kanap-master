@@ -102,44 +102,48 @@ if (ChoixQuantite < 1)
 }
 
 if(erreur1 || erreur2){
-alert ('Nah pas bon')
 console.log(erreur1);
 console.log(erreur2);
 erreurColors.innerHTML = `<br> ${erreur1}`;
 erreurQuantity.innerHTML = `<br> ${erreur2}`;
+btnPanier.innerText="Ajouter au panier";
+btnPanier.style.color = "#FFFFFF";
 
 }
 
 else
 {
-  alert("Good Good")
   erreurColors.innerHTML = `<br> ${erreur1}`;
   erreurQuantity.innerHTML = `<br> ${erreur2}`;
+  btnPanier.innerText="Produit ajouté !";
+  btnPanier.style.color = "#00a000";
   // Local storage
   let produitLocalStorage = JSON.parse (localStorage.getItem ("produit"));
   
-  console.log(produitLocalStorage);
+  console.table(produitLocalStorage);
   
-  if (produitLocalStorage){
-    if(Id===Id && ChoixForm===ChoixForm)
+  if (produitLocalStorage==null){
+    produitLocalStorage =[];
+    produitLocalStorage.push(ProduitSelectionner);
+    localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+    console.log("coucou je suis nouveau");
+    }
+
+  else{
+    
+    let index = produitLocalStorage.findIndex(p => p.Id_produit === Id && p.option === ChoixForm);
+    console.log(index);
+    if(index >= 0)
     {
-      produitLocalStorage.push(ProduitSelectionner);
+      produitLocalStorage[index].quantite = parseInt(produitLocalStorage[index].quantite) + parseInt(ChoixQuantite);
       localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
       console.log("ok modification du nombre");
     }
     else{
-    produitLocalStorage.push(ProduitSelectionner);
-    localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
-    console.log("ok création new produit");
-  }
-
-  }
-
-  else{
-    produitLocalStorage =[];
-    produitLocalStorage.push(ProduitSelectionner);
-    localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
-
+      produitLocalStorage.push(ProduitSelectionner);
+      localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+      console.log("ok création new produit");
+    }
   }
 
 }
