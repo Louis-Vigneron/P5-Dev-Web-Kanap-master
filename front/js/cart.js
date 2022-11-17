@@ -14,16 +14,17 @@ fetch("http://localhost:3000/api/products")
   });
 
   let produitLocalStorage = JSON.parse (localStorage.getItem ("produit"));
-  console.table(produitLocalStorage);
-
 
   function cart(arrayCart){
-  
+
+  // afficher les élements du panier contenu dans le Local Storage
   let cartProduct = document.getElementById("cart__items");
 
-  if (produitLocalStorage === null){
+  if (produitLocalStorage === null || produitLocalStorage == 0){
     const emptyCart = `<p> Panier vide </p>`;
     cartProduct.innerHTML = emptyCart;
+    cartProduct.style.fontSize = "40px";
+    cartProduct.style.textAlign = "center";
   }
 
   else {
@@ -36,7 +37,6 @@ fetch("http://localhost:3000/api/products")
           elLS.imageUrl = elAPI.imageUrl;
           elLS.altTxt = elAPI.altTxt;
 
-          console.table(elLS);
         }
       });
     });
@@ -66,19 +66,32 @@ fetch("http://localhost:3000/api/products")
     `;})
     
     };
-   
-  }
-  let btn_delete = document.querySelectorAll(".deleteItem");
-  console.log(btn_delete);
-  btn_delete.forEach(element => {
-    let id_produit_supprimer = CartProductLS[element].Id_produit;
-    element.addEventListener("click", (event) =>{
-      produitLocalStorage = produitLocalStorage.filter( el => el.Id_produit !==id_produit_supprimer);
-      localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
-    });
-    alert("Le produit a été supprimé !");
+  
+  
+
     
-  });
+
+  // supprimer un produit du panier 
+  let btn_delete = document.querySelectorAll('.deleteItem');
+
+  for (let x = 0; x < btn_delete.length; x++){
+    btn_delete[x].addEventListener("click", () =>{
+    let id_produit_supprimer = produitLocalStorage[x].Id_produit;
+    let color_produit_supprimer = produitLocalStorage[x].option;
+
+
+    produitLocalStorage = produitLocalStorage.filter( el => (el.Id_produit !==id_produit_supprimer || el.option !== color_produit_supprimer));
+    localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+    alert("Le produit a été supprimé !");
+    console.table(produitLocalStorage);
+    console.log(id_produit_supprimer);
+    console.log(color_produit_supprimer);
+    
+    })
+  };
+
+  }
+
 
 
   
