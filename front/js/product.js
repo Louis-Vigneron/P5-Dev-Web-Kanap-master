@@ -119,9 +119,7 @@ else
   btnPanier.style.color = "#00a000";
   // Local storage
   let produitLocalStorage = JSON.parse (localStorage.getItem ("produit"));
-  
-  console.table(produitLocalStorage);
-  
+    
   if (produitLocalStorage==null){
     produitLocalStorage =[];
     produitLocalStorage.push(ProduitSelectionner);
@@ -132,7 +130,6 @@ else
   else{
     
     let index = produitLocalStorage.findIndex(p => p.Id_produit === Id && p.option === ChoixForm);
-    console.log(index);
     if(index >= 0)
     {
       produitLocalStorage[index].quantite = parseInt(produitLocalStorage[index].quantite) + parseInt(ChoixQuantite);

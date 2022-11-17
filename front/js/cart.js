@@ -36,7 +36,6 @@ fetch("http://localhost:3000/api/products")
           elLS.price = elAPI.price;
           elLS.imageUrl = elAPI.imageUrl;
           elLS.altTxt = elAPI.altTxt;
-
         }
       });
     });
@@ -66,8 +65,24 @@ fetch("http://localhost:3000/api/products")
     `;})
     
     };
-  
-  
+    console.table(produitLocalStorage);
+  // modifier la quantité de produit via le panier
+
+  var btn_quantite = document.querySelectorAll('.itemQuantity');
+  console.log(btn_quantite);
+  for (let y = 0; y < btn_quantite.length; y++){
+    btn_quantite[y].addEventListener("change", () =>{
+      let updateQuantity = btn_quantite[y].value;
+      produitLocalStorage[y].quantite = updateQuantity;
+      localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+
+
+      console.log("ok quantité modifiée");
+      console.log(updateQuantity);
+      console.table(produitLocalStorage);
+      console.table(produitLocalStorage[y].quantite);
+    })
+  };
 
     
 
