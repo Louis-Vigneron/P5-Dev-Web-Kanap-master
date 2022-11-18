@@ -75,8 +75,6 @@ fetch("http://localhost:3000/api/products")
       let updateQuantity = btn_quantite[y].value;
       produitLocalStorage[y].quantite = updateQuantity;
       localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
-
-
       console.log("ok quantité modifiée");
       console.log(updateQuantity);
       console.table(produitLocalStorage);
@@ -84,29 +82,33 @@ fetch("http://localhost:3000/api/products")
     })
   };
 
-    
-
   // supprimer un produit du panier 
   let btn_delete = document.querySelectorAll('.deleteItem');
 
   for (let x = 0; x < btn_delete.length; x++){
-    btn_delete[x].addEventListener("click", () =>{
+
     let id_produit_supprimer = produitLocalStorage[x].Id_produit;
     let color_produit_supprimer = produitLocalStorage[x].option;
 
-
+    btn_delete[x].addEventListener("click", () =>{
     produitLocalStorage = produitLocalStorage.filter( el => (el.Id_produit !==id_produit_supprimer || el.option !== color_produit_supprimer));
+    let articleDelete = document.querySelector(`article[data-id="${id_produit_supprimer}"][data-color="${color_produit_supprimer}"]`);
+    articleDelete.remove();
     localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
-    alert("Le produit a été supprimé !");
+    alert("Le produit a été supprimé !"); 
     console.table(produitLocalStorage);
     console.log(id_produit_supprimer);
     console.log(color_produit_supprimer);
     
+    if (produitLocalStorage === null || produitLocalStorage == 0){
+      const emptyCart = `<p> Panier vide </p>`;
+      cartProduct.innerHTML = emptyCart;
+      cartProduct.style.fontSize = "40px";
+      cartProduct.style.textAlign = "center";
+    }
     })
   };
-
   }
-
 
 
   
