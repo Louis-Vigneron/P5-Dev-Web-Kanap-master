@@ -63,14 +63,16 @@ fetch("http://localhost:3000/api/products")
       </div>
     </article> 
     `;})
-    
     };
+    calculation(produitLocalStorage);
+
     console.table(produitLocalStorage);
   // modifier la quantité de produit via le panier
 
   var btn_quantite = document.querySelectorAll('.itemQuantity');
   console.log(btn_quantite);
   for (let y = 0; y < btn_quantite.length; y++){
+    
     btn_quantite[y].addEventListener("change", () =>{
       let updateQuantity = btn_quantite[y].value;
       produitLocalStorage[y].quantite = updateQuantity;
@@ -79,7 +81,10 @@ fetch("http://localhost:3000/api/products")
       console.log(updateQuantity);
       console.table(produitLocalStorage);
       console.table(produitLocalStorage[y].quantite);
+      calculation(produitLocalStorage);
+
     })
+
   };
 
   // supprimer un produit du panier 
@@ -95,11 +100,14 @@ fetch("http://localhost:3000/api/products")
     let articleDelete = document.querySelector(`article[data-id="${id_produit_supprimer}"][data-color="${color_produit_supprimer}"]`);
     articleDelete.remove();
     localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
+
     alert("Le produit a été supprimé !"); 
     console.table(produitLocalStorage);
     console.log(id_produit_supprimer);
     console.log(color_produit_supprimer);
-    
+
+    calculation(produitLocalStorage);
+
     if (produitLocalStorage === null || produitLocalStorage == 0){
       const emptyCart = `<p> Panier vide </p>`;
       cartProduct.innerHTML = emptyCart;
@@ -108,7 +116,21 @@ fetch("http://localhost:3000/api/products")
     }
     })
   };
-  }
 
+  };
 
+// Calcul du total panier (quantité et prix)
+  function calculation(){
   
+    let totalQuantityCart = document.getElementById("totalQuantity");
+    let totalPriceCart = document.getElementById("totalPrice");
+    let totalProductCart = 0;
+    let totalPrice = 0;
+    for (let z = 0; z < produitLocalStorage.length; z++){
+      totalProductCart += parseInt(produitLocalStorage[z].quantite);
+      totalPrice += parseInt(produitLocalStorage[z].quantite) * parseInt(produitLocalStorage[z].price);
+    }
+    totalPriceCart.textContent = totalPrice;
+    totalQuantityCart.textContent = totalProductCart;
+  
+  }
