@@ -117,7 +117,7 @@ fetch("http://localhost:3000/api/products")
     })
   };
 
-  };
+  }
 
 // Calcul du total panier (quantité et prix)
   function calculation(){
@@ -134,3 +134,85 @@ fetch("http://localhost:3000/api/products")
     totalQuantityCart.textContent = totalProductCart;
   
   }
+
+// traitement des données saisie par l'utilisateur dans le formulaire de commande 
+const btn_order = document.getElementById("order");
+const user_firstName = document.getElementById ("firstName");
+const user_lastName = document.getElementById ("lastName");
+const user_address = document.getElementById ("address");
+const user_city = document.getElementById ("city");
+const user_email = document.getElementById ("email");
+
+const error_firstName = document.getElementById ("firstNameErrorMsg");
+const error_lastName = document.getElementById ("lastNameErrorMsg");
+const error_address = document.getElementById ("addressErrorMsg");
+const error_city = document.getElementById ("cityErrorMsg");
+const error_email = document.getElementById ("emailErrorMsg");
+
+
+btn_order.addEventListener("click", ()=>{
+
+let entered_data_user_firstName = user_firstName.value;
+let entered_data_user_lastName = user_lastName.value;
+let entered_data_user_address = user_address.value;
+let entered_data_user_city = user_city.value;
+let entered_data_user_email = user_email.value;
+
+var error_entered_data_user_firstName = "";
+var error_entered_data_user_lastName = "";
+var error_entered_data_user_address = "";
+var error_entered_data_user_city = "";
+var error_entered_data_user_email = "";
+
+if(!entered_data_user_firstName){
+  error_entered_data_user_firstName = "Veuillez remplir ce champ";
+}
+
+if(!entered_data_user_lastName){
+  error_entered_data_user_lastName = "Veuillez remplir ce champ";
+}
+
+if(!entered_data_user_address){
+  error_entered_data_user_address = "Veuillez remplir ce champ";
+}
+
+if(!entered_data_user_city){
+  error_entered_data_user_city = "Veuillez remplir ce champ";
+}
+
+if(!entered_data_user_email){
+  error_entered_data_user_email = "Veuillez remplir ce champ";
+}
+
+if(error_entered_data_user_firstName || error_entered_data_user_lastName || error_entered_data_user_city || entered_data_user_email || entered_data_user_email){
+  error_firstName.textContent = error_entered_data_user_firstName;
+  error_lastName.textContent = error_entered_data_user_lastName;
+  error_address.textContent = error_entered_data_user_address;
+  error_city.textContent = error_entered_data_user_city;
+  error_email.textContent = error_entered_data_user_email;
+}
+
+else {
+  error_firstName.textContent = error_entered_data_user_firstName;
+  error_lastName.textContent = error_entered_data_user_lastName;
+  error_address.textContent = error_entered_data_user_address;
+  error_city.textContent = error_entered_data_user_city;
+  error_email.textContent = error_entered_data_user_email;
+let informationUser = {
+  first_name : entered_data_user_firstName,
+  last_name : entered_data_user_lastName,
+  address : entered_data_user_address,
+  city : entered_data_user_city,
+  email : entered_data_user_email,
+}
+
+let userInformationLocalStorage = JSON.parse (localStorage.getItem ("user_information"));
+userInformationLocalStorage =[];
+userInformationLocalStorage.push(informationUser);
+localStorage.setItem("user_information", JSON.stringify(userInformationLocalStorage));
+
+console.table(informationUser);
+}
+
+});
+

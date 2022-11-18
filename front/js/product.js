@@ -117,6 +117,7 @@ else
   erreurQuantity.innerHTML = `<br> ${erreur2}`;
   btnPanier.innerText="Produit ajouté !";
   btnPanier.style.color = "#00a000";
+  
   // Local storage
   let produitLocalStorage = JSON.parse (localStorage.getItem ("produit"));
     
