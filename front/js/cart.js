@@ -6,7 +6,6 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function(value) {
-    console.table(value);   
     cart(value);   
   })
   .catch(function(err) {
@@ -40,7 +39,8 @@ fetch("http://localhost:3000/api/products")
         }
       });
     });
-     produitLocalStorage.forEach(CartProductLS => {
+
+    produitLocalStorage.forEach(CartProductLS => {
     cartProduct.innerHTML += `
       <article class="cart__item" data-id="${CartProductLS.Id_produit}" data-color="${CartProductLS.option}">
       <div class="cart__item__img">
@@ -71,7 +71,7 @@ fetch("http://localhost:3000/api/products")
   // modifier la quantité de produit via le panier
 
   var btn_quantite = document.querySelectorAll('.itemQuantity');
-  console.log(btn_quantite);
+
   for (let y = 0; y < btn_quantite.length; y++){
     
     btn_quantite[y].addEventListener("change", () =>{
@@ -162,9 +162,9 @@ let entered_data_user_address = user_address.value;
 let entered_data_user_city = user_city.value;
 let entered_data_user_email = user_email.value;
 
-let informationUser = {
-  first_name : entered_data_user_firstName,
-  last_name : entered_data_user_lastName,
+let contact = {
+  firstName : entered_data_user_firstName,
+  lastName : entered_data_user_lastName,
   address : entered_data_user_address,
   city : entered_data_user_city,
   email : entered_data_user_email
@@ -214,11 +214,54 @@ else {
   let userInformationLocalStorage = JSON.parse (localStorage.getItem ("user_information"));
   
   userInformationLocalStorage =[];
-  userInformationLocalStorage.push(informationUser);
+  userInformationLocalStorage.push(contact);
   localStorage.setItem("user_information", JSON.stringify(userInformationLocalStorage));
 
-  console.table(informationUser);
+  console.table(contact);
 }
+
+
+let cartID = [];
+
+console.table(produitLocalStorage);
+
+for( let z = 0; z < produitLocalStorage.length; z++) {
+  let id = produitLocalStorage[z].Id_produit;
+  cartID.push(id);
+};
+
+const order = {
+  contact,
+  products: cartID,
+};
+
+console.log(order);
+console.log(cartID);
+
+const promise = fetch("http://localhost:3000/api/products/order", {
+  method: "POST",
+  headers: {
+    'Accept': 'application/json', 
+    'Content-Type': 'application/json' 
+  },
+
+  body: JSON.stringify(order),
+});
+console.log(promise);
+
+
+promise.then(async(response)=>{
+  try{
+    const contenu = await response.json();
+    console.log(contenu.orderId);
+
+    window.location = `confirmation.html?${contenu.orderId}`;
+  }
+  catch(e){
+    console.log(e);
+  }
+})
+
 
 });
 
