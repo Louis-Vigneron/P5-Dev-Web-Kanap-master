@@ -218,7 +218,6 @@ else {
   localStorage.setItem("user_information", JSON.stringify(userInformationLocalStorage));
 
   console.table(contact);
-}
 
 
 let cartID = [];
@@ -261,7 +260,7 @@ promise.then(async(response)=>{
     console.log(e);
   }
 })
-
+}
 
 });
 
