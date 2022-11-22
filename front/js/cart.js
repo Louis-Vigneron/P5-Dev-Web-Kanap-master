@@ -162,9 +162,6 @@ let entered_data_user_address = user_address.value;
 let entered_data_user_city = user_city.value;
 let entered_data_user_email = user_email.value;
 
-console.log(entered_data_user_email);
-console.log(entered_data_user_firstName);
-
 let informationUser = {
   first_name : entered_data_user_firstName,
   last_name : entered_data_user_lastName,
@@ -179,23 +176,23 @@ var error_entered_data_user_address = "";
 var error_entered_data_user_city = "";
 var error_entered_data_user_email = "";
 
-if(!entered_data_user_firstName){
+if(!entered_data_user_firstName || !/^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(entered_data_user_firstName)){
   error_entered_data_user_firstName = "Veuillez remplir ce champ";
 }
 
-if(!entered_data_user_lastName){
+if(!entered_data_user_lastName || !/^[A-Za-z]{3,20}$/.test(entered_data_user_lastName)){
   error_entered_data_user_lastName = "Veuillez remplir ce champ";
 }
 
-if(!entered_data_user_address){
+if(!entered_data_user_address|| !/^[A-Za-z0-9\s]{5,50}$/.test(entered_data_user_address)){
   error_entered_data_user_address = "Veuillez remplir ce champ";
 }
 
-if(!entered_data_user_city){
+if(!entered_data_user_city || !/^[A-Za-z\s]{3,20}$/.test(entered_data_user_city)){
   error_entered_data_user_city = "Veuillez remplir ce champ";
 }
 
-if(!entered_data_user_email){
+if(!entered_data_user_email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(entered_data_user_email)){
   error_entered_data_user_email = "Veuillez remplir ce champ";
 }
 
