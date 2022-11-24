@@ -80,20 +80,20 @@ console.table(produitLocalStorage);
 
 //Option de modification de la quantité de produit via le panier
 
-var btn_quantite = document.querySelectorAll('.itemQuantity');
+let btn_quantite = document.querySelectorAll('.itemQuantity');
 
 for (let y = 0; y < btn_quantite.length; y++){
 
-btn_quantite[y].addEventListener("change", () =>{
+btn_quantite[y].addEventListener("change", (e) =>{
+  
   let updateQuantity = btn_quantite[y].value;
-  produitLocalStorage[y].quantite = updateQuantity;
+  let upadteIdProduct = e.target.closest("article").getAttribute("data-id");
+  let upadteColorProduct = e.target.closest("article").getAttribute("data-color");
+  let index = produitLocalStorage.findIndex(p => p.Id_produit === upadteIdProduct && p.option === upadteColorProduct);
+  produitLocalStorage[index].quantite = updateQuantity;
   localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
-  console.log("ok quantité modifiée");
-  console.log(updateQuantity);
   console.table(produitLocalStorage);
-  console.table(produitLocalStorage[y].quantite);
   calculation(produitLocalStorage);
-
 })
 
 };
@@ -112,6 +112,7 @@ let articleDelete = document.querySelector(`article[data-id="${id_produit_suppri
 articleDelete.remove();
 localStorage.setItem("produit", JSON.stringify(produitLocalStorage));
 calculation(produitLocalStorage);
+console.table(produitLocalStorage);
 
 if (produitLocalStorage === null || produitLocalStorage == 0)
 {
