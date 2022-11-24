@@ -144,99 +144,65 @@ function calculation()
 //Traitement des données saisie par l'utilisateur dans le formulaire de commande 
 const btn_order = document.getElementById("order");
 
-//Sélection de l'input
-const user_firstName = document.getElementById ("firstName");
-const user_lastName = document.getElementById ("lastName");
-const user_address = document.getElementById ("address");
-const user_city = document.getElementById ("city");
-const user_email = document.getElementById ("email");
 
-//Sélection des message d'erreur pour l'affichage
-const error_firstName = document.getElementById ("firstNameErrorMsg");
-const error_lastName = document.getElementById ("lastNameErrorMsg");
-const error_address = document.getElementById ("addressErrorMsg");
-const error_city = document.getElementById ("cityErrorMsg");
-const error_email = document.getElementById ("emailErrorMsg");
 
+//Fonction du contrôle du formulaire
+function checkInput (nodeDuChamp, regex, message){
+  if(!nodeDuChamp.value || !regex.test(nodeDuChamp.value)){
+    displayError(message);
+    return true;
+  }
+  else {
+    hideError(message);
+    return false;
+  }
+}
+
+//Fonction pour afficher le message d'erreur
+function displayError(message){
+  message.textContent = "Veuillez remplir correctement ce champ";
+}
+
+//Fonction pour cacher le message d'erreur
+function hideError (message){
+  message.textContent = "";
+}
 
 //Gestion du bouton Commander
 btn_order.addEventListener("click", (event)=>{
   event.preventDefault();
-  let entered_data_user_firstName = user_firstName.value;
-  let entered_data_user_lastName = user_lastName.value;
-  let entered_data_user_address = user_address.value;
-  let entered_data_user_city = user_city.value;
-  let entered_data_user_email = user_email.value;
 
-  let contact = {
-    firstName : entered_data_user_firstName,
-    lastName : entered_data_user_lastName,
-    address : entered_data_user_address,
-    city : entered_data_user_city,
-    email : entered_data_user_email
-  }
+  //Sélection de la valeur de l'input
+  let user_firstName = document.getElementById ("firstName");
+  let user_lastName = document.getElementById ("lastName");
+  let user_address = document.getElementById ("address");
+  let user_city = document.getElementById ("city");
+  let user_email = document.getElementById ("email");
 
-  var error_entered_data_user_firstName = "";
-  var error_entered_data_user_lastName = "";
-  var error_entered_data_user_address = "";
-  var error_entered_data_user_city = "";
-  var error_entered_data_user_email = "";
+  //Sélection des message d'erreur pour l'affichage
+  const error_firstName = document.getElementById ("firstNameErrorMsg");
+  const error_lastName = document.getElementById ("lastNameErrorMsg");
+  const error_address = document.getElementById ("addressErrorMsg");
+  const error_city = document.getElementById ("cityErrorMsg");
+  const error_email = document.getElementById ("emailErrorMsg");
 
-  //Vérification des données rentrées par l'utilisateur
-  if(!entered_data_user_firstName || !/^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(entered_data_user_firstName))
-  {
-    error_entered_data_user_firstName = "Veuillez remplir ce champ";
-  }
+  //Définition des conditions de contrôle du formulaire
+  let regexFirstName = /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/; 
+  let regexLastName = /^[A-Za-z]{3,20}$/;
+  let regexAddress = /^[A-Za-z0-9\s]{5,50}$/;
+  let regexCity = /^[A-Za-z\s]{3,20}$/;
+  let regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-  if(!entered_data_user_lastName || !/^[A-Za-z]{3,20}$/.test(entered_data_user_lastName))
-  {
-    error_entered_data_user_lastName = "Veuillez remplir ce champ";
-  }
-
-  if(!entered_data_user_address|| !/^[A-Za-z0-9\s]{5,50}$/.test(entered_data_user_address))
-  {
-    error_entered_data_user_address = "Veuillez remplir ce champ";
-  }
-
-  if(!entered_data_user_city || !/^[A-Za-z\s]{3,20}$/.test(entered_data_user_city))
-  {
-    error_entered_data_user_city = "Veuillez remplir ce champ";
-  }
-
-  if(!entered_data_user_email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(entered_data_user_email))
-  {
-    error_entered_data_user_email = "Veuillez remplir ce champ";
-  }
-
-  //Affichage des champs mal remplie par l'utilisateur
-  if(error_entered_data_user_firstName || error_entered_data_user_lastName || error_entered_data_user_city || error_entered_data_user_address || error_entered_data_user_email)
-  {
-    error_firstName.textContent = error_entered_data_user_firstName;
-    error_lastName.textContent = error_entered_data_user_lastName;
-    error_address.textContent = error_entered_data_user_address;
-    error_city.textContent = error_entered_data_user_city;
-    error_email.textContent = error_entered_data_user_email;
-  }
-
-  else 
-  {
-    error_firstName.textContent = error_entered_data_user_firstName;
-    error_lastName.textContent = error_entered_data_user_lastName;
-    error_address.textContent = error_entered_data_user_address;
-    error_city.textContent = error_entered_data_user_city;
-    error_email.textContent = error_entered_data_user_email;
-
-    //Envoie des données de l'utilisateur sur le local storage
-    /* let userInformationLocalStorage = JSON.parse (localStorage.getItem ("user_information"));
-    userInformationLocalStorage =[];
-    userInformationLocalStorage.push(contact);
-    localStorage.setItem("user_information", JSON.stringify(userInformationLocalStorage)); */
-
-    console.table(contact);
-
-    let cartID = [];
-
-    console.table(produitLocalStorage);
+  //Test des données du formulaires
+  checkInput (user_firstName, regexFirstName, error_firstName);
+  checkInput (user_lastName, regexLastName, error_lastName);
+  checkInput (user_address, regexAddress, error_address);
+  checkInput (user_city, regexCity, error_city);
+  checkInput (user_email, regexEmail, error_email);
+  
+//Vérification qu'il n'y est pas d'erreur 
+if (checkInput(user_firstName, regexFirstName, error_firstName) === false && checkInput(user_lastName, regexLastName, error_lastName) === false && checkInput(user_address, regexAddress, error_address) === false && checkInput(user_city, regexCity, error_city) === false && checkInput(user_email, regexEmail, error_email) === false ){
+  let cartID = [];
 
     for(let z = 0; z < produitLocalStorage.length; z++) 
     {
@@ -246,7 +212,13 @@ btn_order.addEventListener("click", (event)=>{
 
     //Création de l'objet à envoyer à 'API
     const order = {
-      contact,
+      contact:{
+        firstName : user_firstName,
+        lastName : user_lastName,
+        address : user_address,
+        city : user_city,
+        email : user_email
+      },
       products: cartID,
     };
 
@@ -281,6 +253,5 @@ btn_order.addEventListener("click", (event)=>{
         console.log(e);
       }
     })}
-  }
+  } 
 });
-
