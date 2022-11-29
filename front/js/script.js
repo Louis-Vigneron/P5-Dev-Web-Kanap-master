@@ -2,31 +2,31 @@
 
 fetch("http://localhost:3000/api/products")
 
-.then(function(res) {
+  .then(function (res) {
     if (res.ok) {
       return res.json();
     }
   })
-  .then(function(value) {
+  .then(function (value) {
     console.table(value);
     value.forEach(element => {
       buildProduct(element);
 
     });
   })
-  .catch(function(err) {
+  .catch(function (err) {
     // Une erreur est survenue
   });
 
 // Création et ajout des fiches produits
 
-function buildProduct(product){
+function buildProduct(product) {
 
-  let a = document.createElement ("a");
-  a.href = "./product.html"+ "?" + product._id;
+  let a = document.createElement("a");
+  a.href = "./product.html" + "?" + product._id;
   document.getElementById('items').appendChild(a);
 
-  let article = document.createElement ("article");
+  let article = document.createElement("article");
   a.appendChild(article);
 
   let img = document.createElement("img");
