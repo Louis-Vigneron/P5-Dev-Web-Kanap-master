@@ -11,6 +11,7 @@ fetch("http://localhost:3000/api/products")
     cart(value);
   })
   .catch(function (err) {
+    console.log(err);
     // Une erreur est survenue
   });
 
@@ -203,7 +204,11 @@ btn_order.addEventListener("click", (event) => {
   checkInput(user_email, regexEmail, error_email);
 
   //Vérification qu'il n'y est pas d'erreur 
-  if (checkInput(user_firstName, regexFirstName, error_firstName) === false && checkInput(user_lastName, regexLastName, error_lastName) === false && checkInput(user_address, regexAddress, error_address) === false && checkInput(user_city, regexCity, error_city) === false && checkInput(user_email, regexEmail, error_email) === false) {
+  if (!checkInput(user_firstName, regexFirstName, error_firstName)
+    && !checkInput(user_lastName, regexLastName, error_lastName)
+    && !checkInput(user_address, regexAddress, error_address)
+    && !checkInput(user_city, regexCity, error_city)
+    && !checkInput(user_email, regexEmail, error_email)) {
 
     //Contrôle d'un panier vide
     if (produitLocalStorage === null || produitLocalStorage == 0) {
@@ -252,7 +257,8 @@ function sendToServer() {
   promise.then(async (response) => {
     try {
       const contenu = await response.json();
-      console.log(contenu.orderId);
+      console.log(contenu.orderId);  
+      localStorage.removeItem("produit", JSON.stringify(produitLocalStorage));
       window.location = `confirmation.html?${contenu.orderId}`;
     }
     catch (e) {
@@ -261,5 +267,4 @@ function sendToServer() {
   })
 
   // Vide du LS
-  localStorage.removeItem("produit", JSON.stringify(produitLocalStorage));
 }
