@@ -258,6 +258,7 @@ function sendToServer() {
     try {
       const contenu = await response.json();
       console.log(contenu.orderId);  
+       // Vide du LS
       localStorage.removeItem("produit", JSON.stringify(produitLocalStorage));
       window.location = `confirmation.html?${contenu.orderId}`;
     }
@@ -266,5 +267,5 @@ function sendToServer() {
     }
   })
 
-  // Vide du LS
+ 
 }
